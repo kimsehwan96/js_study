@@ -27,11 +27,17 @@ p{
 
 .test-class {
     color : blue;
-    widt : 500px;
+    width : 500px;
     border: 5px solid green;
 }
 
 h1 {
     font-size : 60px;
     text-align: center;
+}
+
+.img-class{
+    border: 2px solid black;
+    width: 450px auto;
+    align-items: center;
 }
