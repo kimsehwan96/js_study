@@ -8,3 +8,6 @@
     - node.js
     - Electron
     
+- Typescript 컴파일하지않고 실행
+    - node_modules/.bin/ts-node 파일명.ts
+    
