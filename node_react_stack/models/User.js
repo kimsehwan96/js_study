@@ -29,20 +29,6 @@ const userSchema = mongoose.Schema({
   },
 });
 
-// userSchema.pre("save", (next) => {
-//   if (this.isModified("password")) {
-//     bcrypt.genSalt(saltRounds, (err, salt) => {
-//       if (err) return next(err);
-//       console.log(this.password);
-//       bcrypt.hash(this.password, salt, (err, hash) => {
-//         if (err) return next(err);
-//         this.password = hash; //arrow function의 this binding scope issue.
-//         next();
-//       });
-//     });
-//   }
-// });
-
 userSchema.pre('save', function(next) {
     let user = this;
 
