@@ -31,7 +31,7 @@ app.get("/", (req, res) => {
   res.send("hello world");
 });
 
-app.post("/register", (req, res) => {
+app.post("/api/users/register", (req, res) => {
   const user = new User(req.body);
   console.log(req.body);
 
@@ -43,7 +43,7 @@ app.post("/register", (req, res) => {
   });
 });
 
-app.post("/login", (req, res) => {
+app.post("/api/users/login", (req, res) => {
   //요청된 이메일을 데이터베이스에서 있는지  찾는다.
 
   User.findOne({ email: req.body.email }, (err, user) => {
@@ -77,5 +77,7 @@ app.post("/login", (req, res) => {
   });
   //비밀번호까지 같다면 유저를 위한 토큰을 생성
 });
+
+
 
 app.listen(port, () => console.log("app started"));
