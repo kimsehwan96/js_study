@@ -3,7 +3,7 @@ const app = express();
 const port = 5000;
 
 const { User } = require("./models/User");
-const { auth } = require('./middleware/auth');
+const { auth } = require("./middleware/auth");
 
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -33,8 +33,8 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/hello", (req, res) => {
-  res.send("  hi !! ")
-})
+  res.send("  hi !! ");
+});
 
 app.post("/api/users/register", (req, res) => {
   const user = new User(req.body);
@@ -83,33 +83,30 @@ app.post("/api/users/login", (req, res) => {
   //비밀번호까지 같다면 유저를 위한 토큰을 생성
 });
 
-
-app.get('/api/users/auth', auth, (req, res) => {
-  //middle ware will set token and user id in request 
+app.get("/api/users/auth", auth, (req, res) => {
+  //middle ware will set token and user id in request
   //if request failed to pass auth, logic will be ended in middleware
-  //so request won't have token and user 
+  //so request won't have token and user
 
-  req.status(200),json({
-    _id : req.user._id,
-    isAdmin : req.user.role === 0 ? false : true,
-    isAuth: true,
-    email : req.user.email,
-    name: req.user.name,
-    role: req.user.role,
-    // image: req.user.image
-  })
-})
+  req.status(200),
+    json({
+      _id: req.user._id,
+      isAdmin: req.user.role === 0 ? false : true,
+      isAuth: true,
+      email: req.user.email,
+      name: req.user.name,
+      role: req.user.role,
+      // image: req.user.image
+    });
+});
 
-app.get('/api/users/logout', auth, (req, res) => {
-  User.findOneAndUpdate({ _id: req.user._id }, 
-    { token: ""},
-     (err, user)  => {
-      if(err) return res.json({success: false, err});
-      return res.status(200).send({
-        success: true
-      })
-    })
-})
-
+app.get("/api/users/logout", auth, (req, res) => {
+  User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, user) => {
+    if (err) return res.json({ success: false, err });
+    return res.status(200).send({
+      success: true,
+    });
+  });
+});
 
 app.listen(port, () => console.log("app started"));
