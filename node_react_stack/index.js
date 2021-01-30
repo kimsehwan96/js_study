@@ -3,6 +3,7 @@ const app = express();
 const port = 5000;
 
 const { User } = require("./models/User");
+const { auth } = require('./middleware/auth');
 
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -78,6 +79,22 @@ app.post("/api/users/login", (req, res) => {
   //비밀번호까지 같다면 유저를 위한 토큰을 생성
 });
 
+
+app.get('/api/users/auth', auth, (req, res) => {
+  //middle ware will set token and user id in request 
+  //if request failed to pass auth, logic will be ended in middleware
+  //so request won't have token and user 
+
+  req.status(200),json({
+    _id : req.user._id,
+    isAdmin : req.user.role === 0 ? false : true,
+    isAuth: true,
+    email : req.user.email,
+    name: req.user.name,
+    role: req.user.role,
+    // image: req.user.image
+  })
+})
 
 
 app.listen(port, () => console.log("app started"));
