@@ -48,27 +48,100 @@ exports.findAll = (req, res) => {
   
 };
 
-// Find a single Tutorial with an id
+// id기반으로 데이터 하나 찾기. 
 exports.findOne = (req, res) => {
-  
+  const id = req.params.id;
+    //Model.findByPk <- prototype with Sequlize.Model, 이고 프로미스 객체임!
+  Tutorial.findByPk(id).then(data => {
+      res.send(data);
+  })
+  .catch(err => {
+      res.status(500).send({
+          message: "에러가 발생했습니다. 찾고자하는 id = " + id
+      });
+  });
 };
 
-// Update a Tutorial by the id in the request
+//id기반으로 데이터를 업데이트 할거에요.
+//req.body에 들어온 내용으로 덮어쓰기 할꺼임 !
 exports.update = (req, res) => {
-  
+  const id = req.params.id;
+
+  Tutorial.update(req.body, {
+      where: { id: id} //조건절
+      //예도 프로미스 객체 !
+  })
+  .then(num => {
+      if(num == 1){
+          res.send({
+              message: "업데이트 성공"
+          });
+      } else {
+          res.send({
+              message :`업데이트가 불가능했습니다. 아이디는 ${id} 입니다.`
+          })
+      }
+  }) //프라미스 객체의 catch 구문이 나와야쥬
+  .catch(err => {
+      res.status(500).send({
+          message: "에러 발생. id = " + id
+      });
+  });
 };
 
-// Delete a Tutorial with the specified id in the request
+// 해당 id에 해당하는 데이터를 삭제시켜버리기!
 exports.delete = (req, res) => {
-  
+  const id = req.params.id;
+
+  Tutorial.destroy({
+      where: { id : id } //조건절
+      //얘도 역시 프라미스죠
+  })
+  .then(num => {
+      if (num == 1){
+          res.send({
+              message : "삭제를 성공했습니다."
+          });
+      } else {
+          res.send({
+              message : `삭제하는데 실패했어요 아이디는 ${id} 입니다.`
+          });
+      }
+  })
+  .catch(err => {
+      res.status(500).send({
+          message : "아이디를 찾을 수 없어요 id = " + id
+      });
+  });
 };
 
-// Delete all Tutorials from the database.
+// 모든 데이터를 삭제할게요.
 exports.deleteAll = (req, res) => {
-  
+  Tutorial.destroy({
+    where: {},
+    truncate: false
+    })
+    .then(nums => {
+        res.send({ message : `${nums} 튜토리얼이 삭제되었습니다. `});
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: err.message || "에러 발생했어요"
+        });
+    });
 };
 
-// Find all published Tutorials
+//퍼블리쉬드가 true인 데이터를 모두찾기. 조건절을 활용해야겠져?
 exports.findAllPublished = (req, res) => {
-  
+  Tutorial.findAll({
+      where : { published : true }
+  }).then (data => {
+      res.send(data);
+  })
+  .catch(err => {
+      res.status(500).send({
+          message: 
+            err.message || "에러 발생했다 이넘들아"
+      });
+  });
 };
