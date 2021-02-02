@@ -25,11 +25,19 @@ async function getTaskAsync() {
     }
 };
 
+async function getTask(id) {
+    const task = await db.Task.findOne({where : { id }});
+    return task;
+}
+
+
 async function createUser(name) { // String
     const user = await db.User.create({ name });
   
     return user
   }
+
+  // createUser("kim");
   
   async function getUser(name) {  //String
     const user = await db.User.findOne({ where: { name } });
@@ -40,8 +48,9 @@ async function createUser(name) { // String
   async function assignTaskToUser(task, user) { // Task Object // user = String || object || int
     await task.setUser(user)
   }
+
   
-  async function listAllUserTaks(user) { // user object
+  async function listAllUserTasks(user) { // user object
     tasks = await user.getTasks()
     tasks.forEach((task) => {
       console.log(task.taskName)
