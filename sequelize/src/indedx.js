@@ -29,6 +29,9 @@ async function getTaskAsync() {
 async function getTask(id) {
     const task = await db.Task.findOne({where : { id }});
     return task;
+    //새로운 프로미스 객체를 리턴하는것이니까
+    //이 getTask 함수를 제대로 사용하기 위해서는 역시 await getTask 를 활용하여 다른 async function 안에서
+    // 호출하는게 맞구나 !
 }
 
 
