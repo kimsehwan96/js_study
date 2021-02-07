@@ -279,3 +279,151 @@ const ret = checkIfContains();
 
 console.log(ret); //true
 ```
+
+## TypeChecking
+
+```js
+'use strict'
+
+const string = 'node.js'
+const array = []
+const obj = {}
+const number = 1;
+console.log(typeof string); //string
+console.log(typeof array); //object
+console.log(typeof obj); //object
+console.log(typeof number); //number
+
+//array는 object의 일부임.
+```
+
+## arrow function
+
+```js
+API.prototype.get = function(resource) {
+    var self = this;
+    return new Promise(function(resolve, reject){
+        htpp.get(self.uri + resource, function(data) {
+            reslove(data);
+        })
+    })
+}
+
+//위 코드를 리팩토링 해보자 (this 바인딩)
+
+API.prototype.get = (resource) => {
+    new Promise((resolve, reject) => {
+        http.get(this.uri + resource, (data) => {
+            reslove(data);
+        });
+    });
+};
+
+//arrow function에서의 this 바인딩은, 자신의 상위 스코프에 바인딩 된다.
+```
+
+## Class
+
+```js
+'use strict'
+
+module.exports = class cacheManager {
+    //construct 는 promise 객체 반환 불가능.
+    constructor(){
+        this.config = []
+    }
+
+    addConfig (obj ={}) {
+        this.config.push(obj)
+    }
+    getConfig() {
+        return this.config
+    }
+}
+```
+
+```js
+'use strict'
+
+const cacheManager = require('./cache');
+
+class sessionManager extends cacheManager { //cacheManager를 상속받음
+
+}
+
+const SessionManager = new sessionManager();
+
+SessionManager.addConfig({
+    token: 'random'
+});
+
+console.log(SessionManager.getConfig()); //[ { token: 'random' } ]
+
+```
+
+- 생성자 및 각종 메서드를 상속받아서 그대로 사용 가능 ~
+
+
+### 메서드 상속
+
+```js
+'use strict'
+
+class Robot {
+    constructor(name) {
+        this.name = name
+    }
+    speak() {
+        console.log(`${this.name}`)
+    }
+}
+
+class Ai extends Robot {
+    constructor(name){
+        super(name) //부모 클래스의 생성자를 호출하는 것.
+        this.doubleName = name + name;
+        //상속된 생성자 호출 후 이렇게 추가 로직 작성 가능
+    }
+
+    walk() {
+        console.log(`${this.doubleName} is waking !`);
+    }
+}
+
+const robot = new Robot('sehwan');
+robot.speak();
+
+const ai = new Ai('sehwan');
+ai.walk();
+```
+
+### 클래스의 스태틱 메서드
+
+```js
+'use strict'
+
+class Test {
+    constructor() {
+
+    }
+
+    fn() {
+        console.log("I'm instance method !");
+    }
+
+    //다른 언어에서의 스태틱 메서드와 동일함.
+    static call() {
+        console.log("calling !")
+    }
+    //다만 스태틱 메서드는 생성자로 선언한 멤버 변수에 접근이 안된다 !!
+}
+
+Test.call(); //calling !
+
+// Test.fn(); <- 에러남
+```
+
+## 비구조화
+
+
+
