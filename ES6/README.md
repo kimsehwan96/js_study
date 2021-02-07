@@ -84,3 +84,51 @@ home();
     - 대신 변경 될 수 있는 뱐수는 let을 사용한다.
     - var는 사용하지 않는다.
     
+## every
+
+- 배열의 모든 조건을 검사 할 때
+    - 조건을 만족하지 않는 요소가 나오면 그 즉시 순회를 중단함
+    
+```js
+'use strict'
+
+const arr = [2, 3, 4]
+
+// Object.keys
+// Object.value
+
+const result = arr.every(key => key > 1);
+// arr.every를 arrow function 조질때. value, index, array 순으로 넘길 수 있다.
+// 배열의 모든 요소를 순회하면서, 만약 어떠한 조건이라도 만족하지 않으면 검사를 수행하지 않고 리턴한다 (boolean)
+console.log(result);
+```
+
+## Find
+- 배열에서 특정한 요소를 찾는다.
+
+```js
+'use strict'
+
+const arr = ['node', 'test'];
+
+const ret = arr.find(key => key ==='node');
+
+console.log(ret);
+// 'node'
+```
+
+## Include
+- 배열에서 특정한 조건을 걸어서 불리언을 리턴
+
+```js
+const res = arr.includes('node')
+
+console.log(res);
+
+//true
+```
+
+- find는 찾고 리턴까지
+- includes는 있는지 없는지만 체크
+
+
