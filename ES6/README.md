@@ -454,4 +454,78 @@ console.log(b); // 1
 ```
 
 
+## Generator
+
+```js
+'use strict'
+
+//제네레이터 -> 클래스의 생성자와는 다른 개념. 생성하는 함수이다.
+//제네레이터 -> yield 라는 특별한 문법을 사용 함. return 과는 좀 다름.
+//yield -> 반환은 하는데 함수를 끝내진 않는다.
+// 제네레이터는 arrow function 선언 불가능
+function* log(){
+    console.log(0, yield)
+    console.log(1, yield)
+    console.log(2, yield)
+}
+
+const gen = log();
+
+gen.next('zero');
+gen.next('first');
+gen.next('second');
+gen.next('third');
+
+// 0 first
+// 1 second
+// 2 third
+
+```
+
+```js
+const obj = {
+    *gen() {
+        let cnt = 0;
+        yield ++cnt;
+        yield ++cnt;
+        yield ++cnt;
+    }
+}
+
+const g = obj.gen()
+console.log(g.next())
+console.log(g.next())
+console.log(g.next())
+
+//  value: 1, done: false }
+// { value: 2, done: false }
+// { value: 3, done: false }
+
+```
+
+## Timers
+
+```js
+'use strict'
+
+const timeoutObj = setTimeout(() => {
+    console.log('first')
+}, 0); //최소 1초 이후에 실행된다. 런타임 환경에 종속적임
+
+const immediateObj = setImmediate(()=>{
+    console.log('second')
+})
+
+// 실행 순서가 그때 그때 다르다 !
+
+const intervalObj = setInterval(() => {
+    console.log("interval");
+}, 1000)
+
+clearTimeout(timeoutObj);
+clearTimeout(immediateObj);
+clearTimeout(intervalObj);
+
+//각각에 타이머를 초기화
+```
 
