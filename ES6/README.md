@@ -613,3 +613,52 @@ fs.writeFile('test_write.txt', content, err => {
 
 - 파일 읽기, 쓰기 간단한 예시 코드였음
 
+```js
+'use strict'
+
+const fs = require('fs')
+const { promisify } = require('util')
+
+const read = promisify(fs.readFile) //이렇게 promisify 인자로 함수를 넣어주면 프라미스 처럼 동작한다는데 ? 덜덜..
+const write = promisify(fs.writeFile)
+
+const writeAndRead = async (data = '') => {
+    try {
+        await write('test_async.txt', data)
+        return await read('test_async.txt');  // 이렇게 resolve 받은 값을 그냥 리턴해도 된다.
+    } catch (err) {
+        console.error(err);
+    }
+
+}
+
+const res = writeAndRead('Hello ! this is async function with promisfy !!');
+res.then((data) =>{
+    console.log(data); // <Buffer 48 65 6c 6c 6f 20 21 20 74 68 69 73 20 69 73 20 61 73 79 6e 63 20 66 75 6e 63 74 69 6f 6e 20 77 69 74 68 20 70 72 6f 6d 69 73 66 79 20 21 21>
+
+})
+```
+
+- 비동기 버전 ! `promisify` 라는 모듈로 동기 함수를 비동기화 하는게 가능하다 덜덜..
+
+## Promise.All
+
+```js
+'use strict'
+
+const promise1 = new Promise((resolve, reject) => resolve("즉시 호출 !"))
+//실행 즉시 resolve가 되는 비동기 함수
+const promise2 = new Promise((resolve, reject) => {
+    setTimeout(() => resolve('3초 뒤에 호출'), 3000)
+})
+// 최소 3초 이후에 reslove를 실행합니다.
+
+Promise.all([promise1, promise2])
+    .then(value => console.log(value));
+
+//3초 뒤에 모든 결과가 호출된다.
+//첫번쨰 프라미스는 이미 reslove 되었음에도 , 뒤에 있는 promise2를 기다리고 호출한다.
+//현업에서 많이 사용한다.
+// 뭔ㄱ ㅏ여러 API를 호출하고, 그 결과를 조합해서 리턴을 해줘야 할 때 여러 API를 기다렸다가 조합하거나 병합해서 수행해주는거
+```
+
