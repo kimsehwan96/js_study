@@ -550,3 +550,66 @@ chatManager.emit("join") //특정 이름의 이벤트를 발생시키는 것. on
 // "new user joined"
 ```
 
+## DNS
+
+- node의 dns 모듈로 DNS lookup 가능함 !
+
+
+```js
+'use strict'
+
+const dns = require('dns');
+
+dns.lookup('google.com', (err, address, family) => {
+    console.log(`address : ${address}, ${family}`)
+})
+
+
+dns.resolve4('archive.org', (err, addresses) => {
+    if (err) throw err
+
+    const res = JSON.stringify(addresses);
+    console.log(res);
+
+    addresses.forEach((item) =>{
+        dns.reverse(item, (err, hostname) => {
+            if (err) throw err
+
+            console.log(`revers for ${item}; ${JSON.stringify(hostname)}`)
+        })
+    })
+})
+```
+
+## File System
+
+```js
+'use strict'
+
+const fs = require('fs')
+
+//file은 stream 통해 읽거나, readfile 사용해 읽을 수 있다.
+
+fs.readFile('test.txt', 'utf-8', (err, data) => {
+    if (err) {
+        console.error(err)
+        return
+    }
+    console.log(data);
+})
+
+//위 코드를 프라미스로 바꿔보자!
+
+const content = 'something to write'
+
+fs.writeFile('test_write.txt', content, err => {
+    if (err) {
+        console.error(err);
+        return
+    }
+    console.log('success');
+})
+```
+
+- 파일 읽기, 쓰기 간단한 예시 코드였음
+
