@@ -232,3 +232,50 @@ console.log(arrRet); //[ 1, 2, 3, 4, 5, 6 ]
 ```
 
 - 객체를 통합할 때 -> spread 연산자를 활용합시다.
+
+## Set
+
+```js
+'use strict'
+
+const test = new Set(); //새로운 객체 생성
+
+test.add(1)
+test.add(2)
+test.add(3)
+test.add(1);
+
+for (const item of test) {
+    console.log(item);
+} //1 2 3
+
+console.log(test); //Set(3) { 1, 2, 3 }
+//중복을 허용하지 않는다.
+```
+
+## String methods
+
+```js
+'use strict'
+
+let string = 'Hello World';
+
+let isStartWith = string.startsWith('H');
+console.log(isStartWith); //true
+
+let isIncludes = string.includes('Hello');
+console.log(isIncludes); //true
+
+let isEndWith = string.endsWith('d');
+console.log(isEndWith); //true
+
+const checkIfContains = () => {
+    if (isStartWith && isIncludes && isEndWith) { //모두 참일경우에만 true 반환. && 연산자는 이렇게 활용
+        return true
+    }
+}
+
+const ret = checkIfContains();
+
+console.log(ret); //true
+```
