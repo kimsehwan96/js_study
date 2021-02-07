@@ -132,3 +132,103 @@ console.log(res);
 - includes는 있는지 없는지만 체크
 
 
+## ForEach
+
+- 배열의 각 아이템을 순회합니다.
+
+```js
+'use strict'
+
+const arr = [1, 2, 3];
+
+arr.forEach(item => console.log(item));
+//1 2 3 출력
+//forEach는 배열의 값을 순차적으로 순회. forEach의 첫번쨰 인자는 콜백 함수며, 콜백함수의 인자로는 value, index, array 순으로 들어감
+
+const newArr = []
+
+arr.forEach(item => {
+    newArr.push(item);
+});
+console.log(newArr);
+//어레이 clone목적으로는 위처럼 사용하는것이 아니라. spread를 사용하세요.
+
+const newArr2 = [...arr];
+console.log(newArr2);
+```
+
+## Map
+
+- Map의 인자로 주어진 콜백함수를 각 원소에 대해서 수행하고, 새로운 배열을 반환한다.
+
+```js
+const a = [1, 2, 3]
+const b = a.map(x => x + 1); //각각에 요소에 대해 1을 더한 요소를 모아 새로운 배열을 반환하게 된다.
+
+console.log(b); //[ 2, 3, 4 ] 즉 새로운 배열을 반환하는것이 Map 메서드
+```
+
+## Filter
+
+- Filter의 인자로 주어진 조건을 수행하고, 조건에 맞는 원소들에 대해 새로운 배열을 반환한다.
+
+```js
+
+const c = [1, 2, 3];
+const f = a.filter(item => item > 1);
+console.log(f); // [ 2, 3 ] 필터를 만족하는 원소에 대해서 새로운 배열로 반환됨
+```
+
+## Object.assign
+
+- 객체를 합치는 방법
+
+```js
+'use strict'
+
+const obj = {
+    title : 'node.js'
+}
+
+const newObj = {
+    name: 'sehwan'
+}
+
+//두 객체를 어떻게 하나로 합칠까?
+
+//Object.assign
+//Object.assign(target:{}, source1: {}, source2: {} ...}
+const ret = Object.assign({}, obj, newObj);
+
+console.log(ret); //{ title: 'node.js', name: 'sehwan' }
+```
+
+- 이렇게 객체를 합칠 수 있지만. spread를 사용하도록 하자.
+
+## Spread
+
+```js
+const spreadRet = {
+    ...obj,
+    ...newObj
+}
+
+console.log(spreadRet);//{ title: 'node.js', name: 'sehwan' }
+
+```
+
+- 객체 뿐만 아니라 array에서도 활용 가능
+
+```js
+const arr = [1, 2, 3]
+const newArr = [4, 5, 6]
+
+const arrRet = [...arr,
+                ...newArr
+]
+
+console.log(arrRet); //[ 1, 2, 3, 4, 5, 6 ]
+
+```
+
+- 객체를 통합할 때 -> spread 연산자를 활용합시다.
